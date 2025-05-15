@@ -79,6 +79,25 @@ const inScoreValue = [8, 8, 9, 8, 8, 9];
 const mainScoreValue = [5, 6, 4, 5, 6, 4];
 const outScoreValue = [1, 1, 3, 2, 1, 2];
 
+if (window.matchMedia("(max-width: 780px)").matches) {
+    centerX = window.innerWidth / 2;
+    centerY = window.innerHeight / 2;
+     mainVertex = generatePoints(centerX, centerY, 120);
+    outVertex = generatePoints(centerX, centerY, 180);
+    inVertex = generatePoints(centerX, centerY, 60);
+    inScore = generatePointScore(centerX, centerY, 35);
+    mainScore = generatePointScore(centerX, centerY, 85);
+    outScore = generatePointScore(centerX, centerY, 135);
+
+} 
+else if(window.matchMedia("(min-width: 784px)").matches) {
+     mainVertex = generatePoints(centerX, centerY, 150);
+    outVertex = generatePoints(centerX, centerY, 225);
+    inVertex = generatePoints(centerX, centerY, 75);
+    inScore = generatePointScore(centerX, centerY, 45);
+   mainScore = generatePointScore(centerX, centerY, 110);
+   outScore = generatePointScore(centerX, centerY, 175);
+}
 
 
 generateCorner(mainVertex, "mainCorner");
@@ -113,25 +132,7 @@ const resetBt = document.getElementById("resetBt");
 const undoBt = document.getElementById("undoBt");
 const redoBt = document.getElementById("redoBt");
 
-if (window.matchMedia("(max-width: 780px)").matches) {
-    centerX = window.innerWidth / 2;
-    centerY = window.innerHeight / 2;
-     mainVertex = generatePoints(centerX, centerY, 120);
-    outVertex = generatePoints(centerX, centerY, 180);
-    inVertex = generatePoints(centerX, centerY, 60);
-    inScore = generatePointScore(centerX, centerY, 35);
-    mainScore = generatePointScore(centerX, centerY, 85);
-    outScore = generatePointScore(centerX, centerY, 135);
 
-} 
-else if(window.matchMedia("(min-width: 784px)").matches) {
-     mainVertex = generatePoints(centerX, centerY, 150);
-    outVertex = generatePoints(centerX, centerY, 225);
-    inVertex = generatePoints(centerX, centerY, 75);
-    inScore = generatePointScore(centerX, centerY, 45);
-   mainScore = generatePointScore(centerX, centerY, 110);
-   outScore = generatePointScore(centerX, centerY, 175);
-}
 
 playBt.addEventListener('click', () => {
     startGame();
