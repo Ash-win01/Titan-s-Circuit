@@ -80,8 +80,8 @@ const mainScoreValue = [5, 6, 4, 5, 6, 4];
 const outScoreValue = [1, 1, 3, 2, 1, 2];
 
 if (window.matchMedia("(max-width: 780px)").matches) {
-    centerX = 200;
-    centerY = 300;
+    centerX = window.innerWidth / 2;
+    centerY = (window.innerHeight / 2) - 5;
      mainVertex = generatePoints(centerX, centerY, 120);
     outVertex = generatePoints(centerX, centerY, 180);
     inVertex = generatePoints(centerX, centerY, 60);
