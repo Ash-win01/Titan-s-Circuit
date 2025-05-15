@@ -1,0 +1,559 @@
+* {
+    background-color: white;
+    /* background-image: url('bg1.jpg'); */
+    /* background-size: cover; */
+
+    
+}
+
+body {
+    height: max-content;
+    width: max-content;
+    /* background-image: url('bg.jpg'); */
+    /* background-size: cover; */
+    /* background-repeat: no-repeat; */
+    /* background-color: darkslateblue; */
+    overflow-y: auto;
+
+}
+
+#pageTitle {
+    margin: 0px;
+    background: transparent;
+    color: yellow;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0px;
+}
+
+#introPage {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; 
+     height: 100vh; 
+    background-image: url('bgintro.png');
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* padding: 2rem; */
+    color: black;
+    text-align: center;
+    overflow-y: auto;
+    z-index: 10;
+    
+    
+}
+
+#inst {
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    gap: 55px;
+}
+
+#scoreAndwin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+
+#gamePlay {
+    height:200px;
+    /* width: 300px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    gap: 5px;
+}
+#gameTitle, #titlescore {
+    display: inline;
+    background: transparent;
+    margin: 0px;
+    padding: 0px;
+    color: white;
+}
+
+#twoPhase, #scorewinsyst {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+
+#placePhase, #movePhase, #scoreSyst, #winCond {
+    height: 200px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    justify-content: center;
+    margin: 0px;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: rgb(239, 94, 239);
+    opacity: 0.9;
+    
+    /* background: transparent; */   
+    /* box-shadow: 0 0 20px rgba(0,0,0,0.5) */
+}
+
+#placeTitle, #scoreTitle, #moveTitle, #winTitle {
+    margin: 0px;
+    padding: 0px;
+    display: inline;
+    background: transparent;
+}
+
+#placePara, #movePara, #scorepara, #winPara {
+    margin: 0px;
+    background: transparent;
+    padding: 0px;;
+    display: inline;
+}
+
+#pdetails {
+    display: flex;
+    flex-direction: row;
+    gap:50px;
+    background: transparent;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#gamePg {
+    display: none;
+    /* background-image: none; */
+    background-color: lightblue;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+label {
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: transparent;
+    color: yellow;
+}
+
+#pbt {
+    background: transparent;
+}
+#playBt {
+    height: 40px;
+    width: 100px;
+    border-radius: 10px;
+    color: white;
+    font-size: large;
+    background-color: blue;
+}
+
+#player1Name, #player2Name {
+    height: 20px;
+    
+}
+
+/* #board { 
+     height: full;
+    width: max-content;
+    border-color: red;
+    border-style: solid;
+    position: relative;
+} */
+
+.corner{
+    border-color: black;
+    border-style: solid;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    position:absolute;
+    transform: translate(-50%, -50%);
+    /* color: transparent; */
+    /* transition: transform 0.2s ease; */
+    /* animation: bounce 1s ease forwards; */
+    background-color: yellow;
+}
+
+.corner:hover {
+    transform: scale(2.0);
+}
+
+.edge {
+    background-color: black;
+    position: absolute;
+    border-color: black;
+    border-style: solid;
+
+}
+
+.score {
+    height: 20px;
+    width: 20px;
+    /* border-color: black;
+    border-style: solid; */
+    color: black;
+    position: absolute;
+    text-align: center;
+    text-decoration: solid;
+    font-weight: bold;
+    font-size: 20px;
+    background: transparent;
+}
+
+.value {
+    height: 30px;
+    width: 30px;
+    /* border-color: black;
+    border-style: solid; */
+    color: black;
+    position: relative;
+    text-align: center;
+    text-decoration: solid;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.scorediv {
+    /* border-color: black; */
+    /* border-style: solid; */
+    background: transparent;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    position:absolute;
+    font-weight: bold;
+    font-size: 18px;
+    align-items: center;
+    transform: translate(-50%, -50%);
+}
+
+.infoBoard {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    height: max-content;
+    gap: 10px;
+    background-color: transparent;
+}
+
+.pHistory{
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+    width: 300px;
+}
+
+.scoreBoard{
+     margin-left: 550px;
+     display: inline-block;
+     width: 350px;
+}
+
+.lBoard {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 300px
+    
+}
+
+.scoreBoard, .pHistory, .lBoard {
+    height: 500px;
+    
+    /* border-color: black; */
+    /* border-style: solid; */
+    /* display: flex; */
+    /* display: inline-block;
+    margin-left: 600px; */
+    /* margin-top: 5px; */
+    /* margin: 50% auto; */
+    background-color: #0b3d4f;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 10px;
+}
+
+.heading {
+    font-size: 20px;
+    align-items: first baseline;
+    margin-top: 20px;
+    margin-left: 10px;
+    text-align: center;
+    background-color: transparent;
+    color: white;
+    
+}
+
+.title {
+    font-size: 30px;
+    align-items: first baseline;
+    margin-top: 20px;
+    margin-left: 10px;
+    text-align: center;
+    background-color: transparent;
+    color: white;
+    font-weight: bolder;
+    padding-bottom: 5px;
+    
+}
+
+#sboard {
+    font-size: 35px;
+}
+
+#sboard, .heading {
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    /* font-size: 35px; */
+    background-color: transparent;
+    font-weight: bolder;
+    color: white;
+
+}
+
+.playerScore {
+ 
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#p1, #p2 {
+    height: 100px;
+    width: 325px;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* border-color: black;
+    border-style: solid; */
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bolder;
+    color: white;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: transparent;
+}
+
+#p1 {
+    background-color: #165BAA;
+    color: white;
+}
+#p2 {
+    background-color: #D32F2F;
+}
+
+#p1name, #p2name, #endGame{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    font-size: 30px;
+
+}
+
+#p1Score, #p2Score, #p1time, #p2time, #timer{
+    height: 50px;
+    width: 50px;
+    /* border-color: black; */
+    /* border-style: solid; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-top: 20px; */
+    background-color: transparent;
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+.turn {
+    height: 30px;
+    width: 400px;
+    border-radius: 10px;
+    margin-left: 50px;
+    margin-top: 50px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+#pturn {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background-color: transparent;
+    
+}
+
+#p1timername, #p2timername, #pl1Name, #pl2Name {
+    background-color: transparent;
+    color: white;
+    display: flex;
+    border-color: black;
+}
+
+.p2sb, .p1sb {
+    width: 165px;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.p2tb, .p1tb{
+    width: 165px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: aliceblue;
+    font-size: 25px;
+}
+
+#gametimer {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: white;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.control {
+    height: 50px;
+    width: 350px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    align-items: center;
+    gap: 10px;
+    background-color: transparent;
+}
+
+#pauseBt, #resumeBt, #resetBt{
+    height: 35px;
+    width: 100px;
+    margin-left: 10px;
+    font-size: 20px;
+    background-color: darkblue;
+    color: white;
+    border-radius: 15px;
+}
+#resetBt{
+    margin-right: 10px;
+}
+
+
+
+#moveHis {
+    height: 500px;
+    width: 300px;
+    /* border-color: black; */
+    /* border-style: solid; */
+    margin-left: 20px;
+    margin-top: 10px;
+    background-color: transparent;
+    color: white;
+    text-wrap: inherit;
+    padding: 2%;
+    overflow-y: auto;
+}
+
+.moveLabel {
+    color: yellow;
+    background-color: transparent;
+    font-weight: bold;
+
+}
+
+table {
+    background: transparent;
+    color: #D32F2F;
+}
+#leaderboardTab {
+    background-color: transparent;
+}
+
+td {
+    text-align: center;
+    background-color: yellow;
+}
+
+@media (max-width: 800px) {
+    .scoreBoard{
+        width: 80%;
+        margin-top: 500px;
+        margin-left: 70px;
+    }
+    .turn {
+        position:static
+    }
+    .infoBoard {
+        display: flex;
+        flex-direction: column;
+    }
+    .pHistory, .lBoard {
+        margin-left: 80px;
+        width: 80%;
+    }
+    #twoPhase, #scorewinsyst {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        
+    }
+    #scorewinsyst {
+        margin-top: 350px;
+    }
+    #inst {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        /* overflow-y: auto; */
+        /* overflow-x: auto; */
+    }
+    #gameTitle {
+        margin-top: 250px;
+    }
+    #pdetails {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+    #pageTitle {
+        margin-top: 250px;
+    }
+    #placePara, #movePara, #scorepara, #winPara {
+        font-size: 14px;
+    }
+    #introPage {
+        background-image: url('mobilebg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+}

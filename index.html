@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body> 
+    <audio id="clickSnd" src="click.mp3" preload="auto"></audio>
+    <audio id="bgmusic" src="bgmusic.mp3" preload="auto" loop></audio>
+    <!-- <audio id="intobgm" src="introbgmusic.mp3" preload="auto" loop></audio> -->
+
+    <audio id="intobgm" autoplay muted>
+  <source src="introbgmusic.mp3" type="audio/mpeg">
+</audio>
+   
+    <div id="introPage">
+        <h1 id="pageTitle">Welcome to the world of Titan's Circuit</h1>
+        <div id="inst">Instructions: <br>
+            <div id="gamePlay">
+          <h2 id="gameTitle"> Gameplay Phases </h2><br><br>
+          <div id="twoPhase">
+          <div id="placePhase">
+       <h2 id="placeTitle"> Placement Phase </h2> <br>
+       <p id="placePara">          Players take turns placing their pieces <br> on available nodes in the outermost circuit when starting the game. <br>
+                           Players can either place their remaining titans on the unlocked circuit or move the existing titans.
+                           When the unlocked circuit is fully filled, <br> the inner circuit gets unlocked. </p> <br><br>
+          </div>
+          <div id="movePhase">
+  <h2 id="moveTitle"> Movement Phase  </h2><br>
+         <p id="movePara"> Once all titans are placed, players take turns moving one titan <br> at a time to an adjacent node along connected edges <br> (Titans can only move along the edges).
+A titan surrounded by <br> opponent titans is permanently removed from play.</p><br><br>
+</div>
+</div>
+</div>
+<div id="scoreAndwin"> 
+    
+       <h1 id="titlescore">  </h1> 
+       <div id="scorewinsyst">
+<div id="scoreSyst"> 
+<h2 id="scoreTitle">Scoring System</h2> <br>
+     <p id="scorepara"> Points are earned by controlling edges:<br>
+An edge is controlled when both its connected nodes are occupied <br> by the same player.
+Points equal to the edge's weight are added to <br>the player's score.
+If a piece moves away from a controlled edge, <br> points equal to that edge's weight are deducted. </p> <br><br>
+</div>
+<div id="winCond">
+  <h2 id="winTitle">Winning Conditions</h2>  <br><br>
+<p id="winPara"> The game ends when:<br>
+
+The overall timer expires.<br>
+The innermost hexagon is fully occupied.<br>
+The player with the highest score at the end of the game wins. </p><br><br>
+</div>
+</div>
+            </div>
+        </div>
+
+    <div id="pdetails">
+        <div id="p1name">
+        <label>Player 1 Name:</label>
+        <input type="text" id="player1Name" required placeholder="Player 1">
+        </div>
+        <div id="p2name">
+        <label>Player 2 Name:</label>
+        <input type="text" id="player2Name" required placeholder="Player 2"> <br>
+        </div>
+    </div>
+    <div id="pbt">
+        <button id="playBt">Play</button>
+    </div>
+    
+    </div>
+
+    <div id="gamePg">
+
+    <div id="board"></div>
+     <div class="turn">
+        <div id="pturn">Start the Game!</div>
+    </div>
+<div class="infoBoard">
+    <div class="scoreBoard">
+        <p id="sboard">Score Board</p>
+        <div class="playerScore">
+        <div id="p1">
+            <div class="p1sb">
+            <div id="pl1Name">Player 1</div>
+            <div id="p1Score">0</div>
+            </div>
+            <div class="p1tb">
+            <div id="p1timername">Time Left</div>
+            <div id="p1time">20</div>
+            </div>
+        </div>
+        <div id="p2">
+            <div class="p2sb">
+            <div id="pl2Name">Player 2</div>
+            <div id="p2Score">0</div>
+            </div>
+            <div class="p2tb">
+            <div id="p2timername">Time Left</div>
+            <div id="p2time">20</div>
+            </div>
+        </div>
+        </div>
+    
+   
+    <div id = "gametimer">
+        <div id="endGame">
+            Game Ends in
+        </div>
+        <div id="timer">
+            00:05:00
+        </div>
+    </div>
+   
+    <div class="control">
+        <button id="pauseBt">Pause</button>
+        <button id="resumeBt">Resume</button>
+        <button id ="resetBt">Reset</button>
+    </div>
+    </div>
+    <div class="pHistory">
+        <div class="heading">
+        Player's Titan Move History</div>
+        <div id="moveHis">
+         
+        </div>
+    </div>
+    <div class="lBoard">
+        <div class="title">LeaderBoard</div>
+        <table id="leaderboardTab">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="lbBody"></tbody>
+        </table>
+    </div>
+</div>
+
+    <br>
+    <button id = "undoBt">Undo</button>
+    <button id = "redoBt">Redo</button>
+
+     <!-- <!-- <div class="turn">
+        <!-- <div id="pturn">Start the Game!</div> -->
+ </div>
+    <script src="script.js"></script>
+
+</body>
+</html>
