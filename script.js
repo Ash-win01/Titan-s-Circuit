@@ -1,5 +1,3 @@
-console.log("Hi Ashwin");
-
 const edgeScores = {
     outCorner: [1, 1, 3, 2, 1, 2],
     mainCorner: [5, 6, 4, 5, 6, 4],
@@ -55,6 +53,18 @@ let turnSeconds = 20;
 let player1Name;
 let player2Name;
 
+let mainVertex;
+let outVertex;
+let inVertex;
+let inScore;
+let mainScore;
+let outScore;
+
+let board = document.getElementById('board');
+
+let centerX = 240;
+let centerY = 300;
+
 const gameTimer  = document.getElementById("timer");
 const player1Timer = document.getElementById("p1time");
 const player2Timer = document.getElementById("p2time");
@@ -65,6 +75,64 @@ const bgMusic = document.getElementById("bgmusic");
 const intropgbgm = document.getElementById("intobgm");
 const playBt = document.getElementById('playBt');
 
+const inScoreValue = [8, 8, 9, 8, 8, 9];
+const mainScoreValue = [5, 6, 4, 5, 6, 4];
+const outScoreValue = [1, 1, 3, 2, 1, 2];
+
+
+
+generateCorner(mainVertex, "mainCorner");
+generateCorner(outVertex, "outCorner");
+generateCorner(inVertex, "inCorner");
+generateScoreCorner(inScore, inScoreValue);
+generateScoreCorner(mainScore, mainScoreValue);
+generateScoreCorner(outScore, outScoreValue);
+
+generateEdge(mainVertex, "mainEdge");
+generateEdge(outVertex, "outEdge");
+generateEdge(inVertex, "inEdge");
+generateEdgeCross(mainVertex, inVertex, "mainInEdge");
+generateEdgeCrossOut(mainVertex, outVertex, "mainOutEdge");
+
+
+const player1 = 1;
+const player2 = 2;
+let currentPlayer = 1;
+document.getElementById("pturn").innerText =  "Start The Game!";
+let player1Coins = 0;
+let player2Coins = 0;
+const maxCoins = 4;
+
+let timerInt;
+let isRunning = false;
+let lastMove = null;
+
+const pauseBt = document.getElementById("pauseBt");
+const resumeBt = document.getElementById("resumeBt");
+const resetBt = document.getElementById("resetBt");
+const undoBt = document.getElementById("undoBt");
+const redoBt = document.getElementById("redoBt");
+
+if (window.matchMedia("(max-width: 780px)").matches) {
+    centerX = window.innerWidth / 2;
+    centerY = window.innerHeight / 2;
+     mainVertex = generatePoints(centerX, centerY, 120);
+    outVertex = generatePoints(centerX, centerY, 180);
+    inVertex = generatePoints(centerX, centerY, 60);
+    inScore = generatePointScore(centerX, centerY, 35);
+    mainScore = generatePointScore(centerX, centerY, 85);
+    outScore = generatePointScore(centerX, centerY, 135);
+
+} 
+else if(window.matchMedia("(min-width: 784px)").matches) {
+     mainVertex = generatePoints(centerX, centerY, 150);
+    outVertex = generatePoints(centerX, centerY, 225);
+    inVertex = generatePoints(centerX, centerY, 75);
+    inScore = generatePointScore(centerX, centerY, 45);
+   mainScore = generatePointScore(centerX, centerY, 110);
+   outScore = generatePointScore(centerX, centerY, 175);
+}
+
 playBt.addEventListener('click', () => {
     startGame();
      clickSound.currentTime = 0;
@@ -73,13 +141,6 @@ playBt.addEventListener('click', () => {
     document.getElementById('pl1Name').innerHTML = player1Name;
     document.getElementById('pl2Name').innerHTML = player2Name;
 });
-
-let board = document.getElementById('board');
-
-let centerX = 240;
-let centerY = 300;
-
-
 
 
 
@@ -134,20 +195,12 @@ Vertex.forEach((point, i) => {
     corner.style.left = `${point.x}px`;
     corner.style.top = `${point.y}px`;
     corner.setAttribute("id", `${label}${i}`);
-    
-
-    // corner.addEventListener("click", () => {
-    //     console.log(`${label}${i} clicked`);
-    //     corner.style.backgroundColor = "red";
-    // });
-
     board.appendChild(corner);
 })
 }
 
 function generateScoreCorner(Vertex, value){
     Vertex.forEach((point, i) => {
-        // const scorediv = document.createElement('div');
         const scorediv = document.createElement('div');
         scorediv.classList.add('scorediv');
     
@@ -231,29 +284,23 @@ function generateEdgeCross(cornerPoints1, cornerPoints2, crossEdge){
         board.appendChild(edge);
 
         const a = ((x2 + x1)/2);
-const b = ((y2 + y1)/2);
+        const b = ((y2 + y1)/2);
 
-const dx1 = centerX - a;
-const dy1 = centerY - b;
+        const dx1 = centerX - a;
+        const dy1 = centerY - b;
 
-const dist = Math.sqrt(dx1*dx1 + dy1*dy1);
+        const dist = Math.sqrt(dx1*dx1 + dy1*dy1);
 
-const ux1 = dx1/dist ;
-const uy1 = dy1/dist;
+        const ux1 = dx1/dist ;
+        const uy1 = dy1/dist;
 
-const score = document.createElement('div');
-score.classList.add('score');
-score.style.left = `${a+ux1*5}px`;
-score.style.top = `${b+uy1*1}px`;
-// score.style.transform = `rotate(${angle}deg)`;
-// score.style.transformOrigin = '0 0';
-score.innerHTML = '1';
-
-board.appendChild(score);
-
+        const score = document.createElement('div');
+        score.classList.add('score');
+        score.style.left = `${a+ux1*5}px`;
+        score.style.top = `${b+uy1*1}px`;
+        score.innerHTML = '1';
+        board.appendChild(score);
         i=i+1;
-
-
     }
 }
 
@@ -306,8 +353,6 @@ function generateEdgeCrossOut(cornerPoints1, cornerPoints2, crossEdge){
         score.classList.add('score');
         score.style.left = `${a+ux1*1}px`;
         score.style.top = `${b+uy1*10}px`;
-        // score.style.transform = `rotate(${angle}deg)`;
-        // score.style.transformOrigin = '0 0';
         score.innerHTML = '1';
         
         board.appendChild(score);
@@ -318,71 +363,6 @@ function generateEdgeCrossOut(cornerPoints1, cornerPoints2, crossEdge){
     }
 }
 
-let mainVertex;
-let outVertex;
-let inVertex;
-let inScore;
-let mainScore;
-let outScore;
-
-// const mainVertex = generatePoints(centerX, centerY, 150);
-// const outVertex = generatePoints(centerX, centerY, 225);
-// const inVertex = generatePoints(centerX, centerY, 75);
-
-
-// const inScore = generatePointScore(centerX, centerY, 45);
-// const mainScore = generatePointScore(centerX, centerY, 110);
-// const outScore = generatePointScore(centerX, centerY, 175);
-
-if (window.matchMedia("(max-width: 780px)").matches) {
-    centerX = window.innerWidth / 2;
-    centerY = window.innerHeight / 2;
-     mainVertex = generatePoints(centerX, centerY, 120);
-    outVertex = generatePoints(centerX, centerY, 180);
-    inVertex = generatePoints(centerX, centerY, 60);
-    inScore = generatePointScore(centerX, centerY, 35);
-    mainScore = generatePointScore(centerX, centerY, 85);
-    outScore = generatePointScore(centerX, centerY, 135);
-//   document.getElementById("myElement").style.display = "none";
-} 
-else if(window.matchMedia("(min-width: 784px)").matches) {
-     mainVertex = generatePoints(centerX, centerY, 150);
-    outVertex = generatePoints(centerX, centerY, 225);
-    inVertex = generatePoints(centerX, centerY, 75);
-    inScore = generatePointScore(centerX, centerY, 45);
-   mainScore = generatePointScore(centerX, centerY, 110);
-   outScore = generatePointScore(centerX, centerY, 175);
-//   document.getElementById("myElement").style.display = "block";
-}
-
-const inScoreValue = [8, 8, 9, 8, 8, 9];
-const mainScoreValue = [5, 6, 4, 5, 6, 4];
-const outScoreValue = [1, 1, 3, 2, 1, 2];
-
-// const crossValue = 1;
-
-generateCorner(mainVertex, "mainCorner");
-generateCorner(outVertex, "outCorner");
-generateCorner(inVertex, "inCorner");
-generateScoreCorner(inScore, inScoreValue);
-generateScoreCorner(mainScore, mainScoreValue);
-generateScoreCorner(outScore, outScoreValue);
-
-generateEdge(mainVertex, "mainEdge");
-generateEdge(outVertex, "outEdge");
-generateEdge(inVertex, "inEdge");
-generateEdgeCross(mainVertex, inVertex, "mainInEdge");
-generateEdgeCrossOut(mainVertex, outVertex, "mainOutEdge");
-
-// game Play
-
-const player1 = 1;
-const player2 = 2;
-let currentPlayer = 1;
-document.getElementById("pturn").innerText =  "Start The Game!";
-let player1Coins = 0;
-let player2Coins = 0;
-const maxCoins = 4;
 
 function enableClick (label, onClick){
     for(let i = 0; i<6; i++){
@@ -394,12 +374,7 @@ function enableClick (label, onClick){
             clickSound.play();
         }, {once:true});
     }
-    // if(checkFilled("outCorner")===5){
-    //     enableClick("mainCorner", onClick);
-    // }
-    // if(checkFilled("mainCorner")===5){
-    //     enableClick("inCorner", onClick);
-    // }
+    
 }
 
 function onClick(corner, index, label){
@@ -413,10 +388,6 @@ function onClick(corner, index, label){
         player1place[label].push(index);
         corner.classList.add("Filled");
         corner.classList.add("p1titan");
-        // addScore(label, index, player1place);
-        // undoBt.addEventListener('click', ()=>{
-        //     undoMove(corner, label);
-        // });
         moveHistory.push({
             type: "place",
             player: player1Name,
@@ -431,24 +402,16 @@ function onClick(corner, index, label){
 
         checkNextLayer(label);
         edgeOwnership(label, player1place, 'player1', index);
-        // crossEdgeOwnership(player1place, "currentPlayer");
         crossEdgeOwnership("mainCorner", "inCorner", player1place, "player1", "mainInCorner");
         crossEdgeOwnership("mainCorner", "outCorner", player1place, "player1", "outMainCorner");
-        // titanEliminate(label, player1place, 'player1', corner);
         return;
     }
     else if (currentPlayer === 2 && player2Coins<maxCoins){
-        // corner.style.backgroundColor = "red";
-        // corner.style.backgroundImage = "none";
         corner.style.backgroundColor = "red";
         player2Coins++;
         player2place[label].push(index);
         corner.classList.add("Filled");
         corner.classList.add("p2titan");
-        // addScore(label, index, player2place);
-        // undoBt.addEventListener('click', ()=>{
-        //     undoMove(corner, label);
-        // });
         moveHistory.push({
             type: "place",
             player: player2Name,
@@ -465,32 +428,14 @@ function onClick(corner, index, label){
         edgeOwnership(label, player2place, 'player2', index);
         crossEdgeOwnership("mainCorner", "inCorner", player2place, "player2", "mainInCorner");
         crossEdgeOwnership("mainCorner", "outCorner", player2place, "player2", "outMainCorner");
-        // titanEliminate(label, player2place, 'player2', corner);
-        // crossEdgeOwnership(player2place, "player2");
-
-    //     if (checkFilled(label) > 5) {
-    //     if (label === "outCorner") {
-    //        crossEdgeOwnership("mainCorner", "inCorner", player2place, "player2", "mainInCorner");
-    //     } else if (label === "mainCorner") {
-    //         crossEdgeOwnership("mainCorner", "outCorner", player2place, "player2", "outMainCorner");
-    //     }
-    // }
-       
-        
         return;
     } 
 }
 
 function checkNextLayer(label){
-    // if(label==="mainCorner" || label==="inCorner"){
-    //     // alert("Locked!");
-    // }
     if (checkFilled(label) > 5) {
         if (label === "outCorner") {
             enableClick("mainCorner", onClick);
-        // if(label==="inCorner"){
-        //     // alert("Locked!");
-        // }
         } else if (label === "mainCorner") {
             enableClick("inCorner", onClick);
             dragTitans("inCorner", dragClick);
@@ -516,12 +461,6 @@ function checkNextLayer(label){
 
         }
     }
-    // else if(label === "outCorner"){
-    //     return;
-    // }
-    // else{
-    //     // alert("Locked!!!");
-    // }
 }
 
 function checkFilled (label){
@@ -560,13 +499,11 @@ function dragClick(corner, index, label){
         const fromIndex = parseInt(firstClick.dataset.index);
         const fromLabel = firstClick.dataset.label;
 
-        // Prevent same coin from moving to a filled spot
         if (corner.classList.contains("Filled")) {
             firstClick = null;
             return;
         }
 
-        // Validate edge connection
         const validMove = isValidEdgeMove(fromLabel, label, fromIndex, index);
         if (!validMove) {
             alert("Invalid move: not connected by an edge");
@@ -574,7 +511,7 @@ function dragClick(corner, index, label){
             return;
         }
 
-        // Move logic
+        
         if (currentPlayer === 1) {
             if(firstClick.style.backgroundColor === "red"){
                 return;
@@ -622,7 +559,7 @@ function dragClick(corner, index, label){
             crossEdgeOwnership("mainCorner", "outCorner", player2place, "player2", "outMainCorner");
         }
 
-        // Clear source
+        
         firstClick.style.backgroundColor = "transparent";
         firstClick.classList.remove("Filled");
 
@@ -650,15 +587,11 @@ function removeIndex(arr, value) {
 
 function isValidEdgeMove(fromLabel, toLabel, fromIndex, toIndex) {
     if (fromLabel === toLabel) {
-        // Only adjacent indices are allowed (including wraparound)
         return (
             Math.abs(fromIndex - toIndex) === 1 ||
             Math.abs(fromIndex - toIndex) === 5
         );
     }
-
-    // Cross-edge connection (in-out / main-out / in-main)
-    // All indexes are matched by position
     return fromIndex === toIndex;
 }
 
@@ -747,84 +680,6 @@ function crossEdgeOwnership(label1, label2, playerPlace, player, crossLabel){
     }
 }
  
-// function titanEliminate(label, playerPlace, player, corner){
-//     const position = playerPlace[label];
-//     //  const edgeArr = edgeScores[label];
-//     const ownership = ownedEdges[player][label];
-
-//     let playerPos = playerPlace === player1place ? player2place : player1place;
-
-//     for(let i = 0; i<6; i++){
-//         const a = i;
-//         const b = (i+1)%6;
-//         const c = i === 0 ? (i+1) : (i-1);
-        
-//       if(position.includes(a)){
-//          if((position.includes(b) && position.includes(c))){
-//             return;
-//          }
-//          else if(playerPos[label].includes(b) && playerPos[label].includes(c)){
-//             ownership[i] = false;
-//             corner.style.backgroundColor = "transparent";
-//             // corner.classList.remove = "Filled";
-//          }
-//       }
-//       else {
-//         return;
-//       }
-        
-//     }
-// }
-
-function titanEliminate(label, playerPlace, player, corner) {
-    const position = playerPlace[label]; // e.g., [0, 2, 3]
-    const ownership = ownedEdges[player][label]; // e.g., [true, true, false, false, ...]
-
-    // Get index from the ID of the corner (format: label + i)
-    const id = corner.id;
-    const i = parseInt(id.replace(label, '')); // Extract index from "label3" -> 3
-
-    if (isNaN(i)) {
-        console.error("Invalid corner index from ID:", id);
-        return;
-    }
-
-    const a = i;
-    const b = (i + 1) % 6;
-    const c = (i - 1 + 6) % 6;
-
-    // Ensure the player owns this corner
-    if (!position.includes(a)) return;
-
-    const ownsNeighbors = position.includes(b) && position.includes(c);
-    const opponentPlace = playerPlace === player1place ? player2place : player1place;
-    const opponentNeighbors = opponentPlace[label];
-
-    const opponentOwnsNeighbors = opponentNeighbors.includes(b) && opponentNeighbors.includes(c);
-
-    if (ownsNeighbors) {
-        // Player controls this triad — do nothing
-        return;
-    }
-
-    if (opponentOwnsNeighbors) {
-        // Eliminate player's control over this corner
-        const idx = position.indexOf(a);
-        if (idx !== -1) position.splice(idx, 1); // Remove from player's array
-        ownership[i] = false;
-
-        // Remove visuals
-        corner.style.backgroundColor = "transparent";
-        corner.classList.remove("Filled");
-        corner.classList.remove("p1titan");
-        corner.classList.remove("p2titan");
-    }
-}
-
-
-
-let timerInt;
-let isRunning = false;
 
 function starttimer(){
     if(!isRunning){
@@ -836,7 +691,6 @@ function starttimer(){
     const min = Math.floor(totalSeconds/60);
     const seconds = totalSeconds % 60;
 
-    // gameTimer.innerText = `Time Left: ${min.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     gameTimer.innerText = `00:0${min}:${seconds}`;
     if(currentPlayer === 1){
        player1Timer.innerText = turnSeconds;
@@ -846,7 +700,6 @@ function starttimer(){
     }
 
     if(turnSeconds <=0){
-        // alert("Time up! You missed your turn!");
         currentPlayer = currentPlayer === 1 ? 2 : 1;
         turnSeconds = 20;
         document.getElementById("pturn").innerText = (currentPlayer ===1 ) ? `${player1Name} turn` : `${player2Name} turn`
@@ -951,266 +804,11 @@ function resetTitans(label){
     }
 }
 
-let lastMove = null;
-
-// function undoMove() {
-//     if (moveHistory.length === 0) return;
-
-//     lastMove = moveHistory.pop();
-//     const undoPlayer = lastMove.player;
-//     const undoLabel = lastMove.label;
-//     const undoIndex = lastMove.index;
-
-//     const playerPlace = undoPlayer === "player1" ? player1place : player2place;
-//     // const playerCoins = player === "Player1" ? 'player1Coins' : 'player2Coins';
-    
-//     playerPlace[undoLabel] = playerPlace[undoLabel].filter(i => i != undoIndex);
-//     if (undoPlayer === "player1") {
-//         player1Coins--;
-//     } else {
-//         player2Coins--;
-//     }
-
-//     removeEdgeOwnership(undoLabel, playerPlace, undoPlayer, undoIndex);
-
-//     const cornerElement = document.getElementById(`${undoLabel}${undoIndex}`);
-    
-//     if (cornerElement) {
-//         cornerElement.style.backgroundColor = "transparent";
-//         cornerElement.classList.remove("Filled");
-//     }
-
-//     cornerElement.addEventListener('click', () => {
-//     onClick(cornerElement, undoIndex, undoLabel);
-//     clickSound.currentTime = 0;
-//     clickSound.play();}, { once: true });
-
-//     updateHist();
-//     currentPlayer = currentPlayer === 1 ? 2 : 1;
-//     turnSeconds = 20;
-//     player1Timer.innerText = "20";
-//     document.getElementById('pturn').innerText = `Player ${currentPlayer} turn!`;
-// }
-
-// function dragUndo() {
-//     if(moveHistory.length === 0) return;
-
-//     const lastMove = moveHistory.pop();
-//     const dmPlayer = lastMove.player;
-//     const from = lastMove.from;
-//     const to = lastMove.to;
-
-//     const playerPlace = dmPlayer === "player1" ? player1place : player2place;
-
-//     const toCorner = document.getElementById(`${from.label}${from.index}`);
-//     toCorner.style.backgroundColor = "transparent";
-//     toCorner.classList.remove("Filled");
-
-//     const fromCorner = document.getElementById(`${to.label}${to.index}`);
-//     fromCorner.style.backgroundColor = (dmPlayer === "player1") ? "blue" : "red";
-//     fromCorner.classList.add("Filled");
-
-//     removeIndex(playerPlace[to.label], to.index);
-//     playerPlace[from.label].push(from.index);
-
-//     removeEdgeOwnership(to.label, playerPlace, dmPlayer, to.index);
-//     addEdgeOwnership(from.label, playerPlace, dmPlayer, from.index);
-
-//     currentPlayer = currentPlayer=== 1 ? 2 : 1;
-//     document.getElementById('pturn').innerText = `Player ${currentPlayer} turn.`;
-// }
-
-// function handleUndo() {
-//     if (moveHistory.length === 0) return;
-
-//     const last = moveHistory[moveHistory.length - 1];
-
-//     if (last.type === "place") {
-//         undoMove();
-//     } else if (last.type === "drag") {
-//         dragUndo();
-//     }
-// }
-
-// function redoMove() {
-//     if(!lastMove) return;
 
 
-//     const redoLabel = lastMove.label;
-//     const redoPlayer = lastMove.player;
-//     const redoIndex = lastMove.index;
-
-//     const playerPlace = redoPlayer === "player1" ? player1place : player2place;
-//      const cornerElement = document.getElementById(`${redoLabel}${redoIndex}`);
-
-//      if (redoPlayer === "player1") {
-//         player1Coins++;
-//         player1place[redoLabel].push(redoIndex);
-//     } else {
-//         player2Coins++;
-//         player2place[redoLabel].push(redoIndex);
-//     }
-
-//     addEdgeOwnership(redoLabel, playerPlace, redoPlayer, redoIndex);
-
-//     if (cornerElement) {
-//         if(redoPlayer === "player1"){
-//             cornerElement.style.backgroundColor = "blue";
-//             cornerElement.classList.add("Filled");}
-//         else{
-//             cornerElement.style.backgroundColor = "red";
-//             cornerElement.classList.add("Filled");
-//         }
-//     }
-
-    
-//     updateHist();
-//     currentPlayer = currentPlayer === 1 ? 2 : 1;
-//     turnSeconds = 20;
-//     player1Timer.innerText = "20";
-//     document.getElementById('pturn').innerText = `Player ${currentPlayer} turn!`;
-
-//     lastMove = null;
-// }
-
-// function dragRedo() {
-//     if(moveHistory.length === 0) return;
-
-//     // const lastMove = moveHistory.pop();
-//     const dmPlayer = lastMove.player;
-//     const from = lastMove.from;
-//     const to = lastMove.to;
-
-//     const playerPlace = dmPlayer === "player1" ? player1place : player2place;
-
-//     const toCorner = document.getElementById(`${from.label}${from.index}`);
-//     toCorner.style.backgroundColor = "transparent";
-//     toCorner.classList.remove("Filled");
-
-//     const fromCorner = document.getElementById(`${to.label}${to.index}`);
-//     fromCorner.style.backgroundColor = (dmPlayer === "player1") ? "blue" : "red";
-//     fromCorner.classList.add("Filled");
-
-//     removeIndex(playerPlace[to.label], to.index);
-//     playerPlace[from.label].push(from.index);
-
-//     removeEdgeOwnership(to.label, playerPlace, dmPlayer, to.index);
-//     addEdgeOwnership(from.label, playerPlace, dmPlayer, from.index);
-
-//     currentPlayer = currentPlayer=== 1 ? 2 : 1;
-//     document.getElementById('pturn').innerText = `Player ${currentPlayer} turn.`;
-// }
-
-// function removeEdgeOwnership(label, playerPlace, player){
-//     const positions = playerPlace[label];
-//     const edgeArr = edgeScores[label];
-//     const ownership = ownedEdges[player][label];
-
-//     for(let i=0; i<6; i++){
-//         const a = i;
-//         const b = (i+1)%6;
-
-//         if((positions.includes(a) && positions.includes(b))){
-//             if(!ownership[i]){
-//                 ownership[i] = true;
-//                if(player === 'Player1'){
-//                 player1Score -= edgeArr[i];
-//                 console.log(`Player 1 Score: ${player1Score}`);
-//                 document.getElementById("p1Score").innerText = player1Score;
-//                }
-//                else{
-//                 player2Score -= edgeArr[i];
-//                 console.log(`Player 2 Score: ${player2Score}`);
-//                 document.getElementById("p2Score").innerHTML = player2Score;
-//                }
-//             }
-//         }
-//         else if(ownership[i]){
-//             ownership[i] = false;
-//             if(player === 'Player1'){
-//                 player1Score += edgeArr[i];
-//                 console.log(`Player 1 Score: ${player1Score}`);
-//                 document.getElementById("p1Score").innerText = player1Score;
-
-//             }
-//             else {
-//                 player2Score += edgeArr[i];
-//                 console.log(`Player 2 Score: ${player2Score}`);
-//                 document.getElementById("p2Score").innerHTML = player2Score;
-//             }
-//         }
-//     }
-// }/
-
-// function removeEdgeOwnership(label, playerPlace, player, index) {
-//     const edgeArr = edgeScores[label];
-//     const ownership = ownedEdges[player.toLowerCase()][label];
-//     const positions = playerPlace[label];
-
-//     const a = index;
-//     const b1 = (index + 1) % 6;
-//     const b2 = (index - 1 + 6) % 6;
-
-//     // Check both possible edges created by placing at 'a'
-//     if (positions.includes(b1) && ownership[a]) {
-//         ownership[a] = false;
-//         if (player === 'player1') {
-//             player1Score -= edgeArr[a];
-//             document.getElementById("p1Score").innerText = player1Score;
-//         } else {
-//             player2Score -= edgeArr[a];
-//             document.getElementById("p2Score").innerText = player2Score;
-//         }
-//     }
-
-//     if (positions.includes(b2) && ownership[b2]) {
-//         ownership[b2] = false;
-//         if (player === 'player1') {
-//             player1Score -= edgeArr[b2];
-//             document.getElementById("p1Score").innerText = player1Score;
-//         } else {
-//             player2Score -= edgeArr[b2];
-//             document.getElementById("p2Score").innerText = player2Score;
-//         }
-//     }
-// }
-
-// function addEdgeOwnership(label, playerPlace, player, index) {
-//     const edgeArr = edgeScores[label];
-//     const ownership = ownedEdges[player.toLowerCase()][label];
-//     const positions = playerPlace[label];
-
-//     const a = index;
-//     const b1 = (index + 1) % 6;
-//     const b2 = (index - 1 + 6) % 6;
-
-//     // Check both possible edges created by placing at 'a'
-//     if (positions.includes(b1) && !ownership[a]) {
-//         ownership[a] = true;
-//         if (player === 'player1') {
-//             player1Score += edgeArr[a];
-//             document.getElementById("p1Score").innerText = player1Score;
-//         } else {
-//             player2Score += edgeArr[a];
-//             document.getElementById("p2Score").innerText = player2Score;
-//         }
-//     }
-
-//     if (positions.includes(b2) && !ownership[b2]) {
-//         ownership[b2] = true;
-//         if (player === 'player1') {
-//             player1Score += edgeArr[b2];
-//             document.getElementById("p1Score").innerText = player1Score;
-//         } else {
-//             player2Score += edgeArr[b2];
-//             document.getElementById("p2Score").innerText = player2Score;
-//         }
-//     }
-// }
 
 function updateHist(){
 hist.innerHTML = moveHistory.map((move, i) => {
-    // return `Move ${i+1}: Player ${move.player} placed titan at ${move.label}[${move.index}]`;
     return `<span class="moveLabel">Move ${i+1}:</span> <br> ${move.player} placed titan at ${move.label}[${move.index}]`;
 }).join('<br>');
 }
@@ -1253,11 +851,7 @@ function loadLeaderBoard(){
     })
 }
 
-const pauseBt = document.getElementById("pauseBt");
-const resumeBt = document.getElementById("resumeBt");
-const resetBt = document.getElementById("resetBt");
-const undoBt = document.getElementById("undoBt");
-const redoBt = document.getElementById("redoBt");
+
 
 if(totalSeconds === 300){
     resumeBt.innerText = "Start";
@@ -1276,17 +870,11 @@ resumeBt.addEventListener('click', () => {
     resumeTimer();
 });
 resetBt.addEventListener('click', resetTimer);
-// undoBt.addEventListener('click', handleUndo);
-// redoBt.addEventListener('click', () => {
-//     redoMove();
-//     dragRedo();
-// });
 
 
-// enableClick("outCorner", onClick);
 dragTitans("mainCorner", dragClick);
 dragTitans("outCorner", dragClick);
-// dragTitans("inCorner", dragClick);
+
 
 
 window.onload = function () {
